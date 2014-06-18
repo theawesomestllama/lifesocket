@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>LifeSocket</title>
+    <style type="text/css">
+        body {
+            background-color: #F0F0F0;
+        }
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1.title {
+            text-align: center;
+            font-variant: small-caps;
+        }
+    </style>
+    <script type="application/javascript">
+        var debug = function() {}; // function() {console.log(arguments)};
+    </script>
+    <script type="application/javascript" src="scripts/lifesocket.js"></script>
+    <script type="application/javascript">
+        window.onload = function() {
+            var client = new LifeSocketClient(document.getElementById('life_socket_target'));
+            client.onopen = function() {
+                client.initialize(160,80);
+                client.requestState();
+                setInterval(function() {
+                    client.draw();
+                    client.step();
+                    client.requestState();
+                }, 300);
+            };
+            client.open('ws://' + document.location.host);
+
+            window.onbeforeunload = function() {
+                client.onclose = function() {};
+                client.close();
+            };
+        }
+    </script>
+</head>
+<body>
+<h1 class="title">LifeSocket</h1>
+<canvas id="life_socket_target" width="1000" height="500"></canvas>
+</body>
+</html>
