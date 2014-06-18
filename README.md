@@ -1,0 +1,4 @@
+lifesocket
+==========
+
+Simple ecosystem simulation
